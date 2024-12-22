@@ -3,6 +3,7 @@ import EntryForm from './components/EntryForm'
 import Navbar from './components/Navbar'
 import Deposit from './components/actions/Deposit'
 import Withdraw from './components/actions/Withdraw'
+import Loan from './components/actions/Loan'
 
 function ActionsLayout() {
     return (
@@ -22,6 +23,7 @@ export default function App() {
           <Route path='/actions' element={<ActionsLayout />}>
             <Route path='deposit' element={<Deposit />} />
             <Route path='withdraw' element={<Withdraw />} />
+            <Route path='loan' element={<Loan />} />
           </Route>
         </Routes>        
       </BrowserRouter>

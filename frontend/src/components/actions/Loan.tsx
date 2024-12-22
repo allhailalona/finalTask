@@ -1,13 +1,13 @@
 // Import required components and hooks
 import { Button, Form, Input, message } from 'antd'
 
-export default function Withdraw() {
+export default function Loan() {
     const [form] = Form.useForm()
 
     async function onFinish() {
         try {
             const values = form.getFieldsValue()
-            const res = await fetch(`http://localhost:3000/withdraw`, {
+            const res = await fetch(`http://localhost:3000/loan`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -15,11 +15,11 @@ export default function Withdraw() {
                 body: JSON.stringify(values)
             })
             if (!res.ok) throw new Error('Unknown error occured')
-            message.success('withdraw Successful!')
+            message.success('loan Successful!')
             form.resetFields()
         } catch (err) {
-            console.error('error in onFinish withdraw.tsx', err)
-            message.error('Error With withdraw...')
+            console.error('error in onFinish loan.tsx', err)
+            message.error('Error With loan...')
         }
     }
 
@@ -41,18 +41,38 @@ export default function Withdraw() {
             </Form.Item>
 
             <Form.Item
-                label={<span className='text-2xl font-bold mt-2'>Withdraw Sum</span>}
+                label={<span className='text-2xl font-bold mt-2'>Loan Sum</span>}
                 name="sum"
             >
                 <Input 
-                   placeholder="Withdraw Sum"
+                   placeholder="Loan Sum"
+                   className='text-2xl font-bold h-[48px]' 
+               />
+            </Form.Item>
+
+            <Form.Item
+                label={<span className='text-2xl font-bold mt-2'>Interest</span>}
+                name="interest"
+            >
+                <Input 
+                   placeholder="Interest"
+                   className='text-2xl font-bold h-[48px]' 
+               />
+            </Form.Item>
+
+            <Form.Item
+                label={<span className='text-2xl font-bold mt-2'>No of payments</span>}
+                name="noOfPayments"
+            >
+                <Input 
+                   placeholder="No of payments"
                    className='text-2xl font-bold h-[48px]' 
                />
             </Form.Item>
 
             <Form.Item>
                 <Button type="primary" htmlType="submit" className='text-2xl font-bold h-12'>
-                    Withdraw
+                    Loan
                 </Button>
             </Form.Item>
         </Form>

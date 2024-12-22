@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
-import { validateEntry, deposit, withdraw } from './mongoUtils/DBOps'
+import { validateEntry, deposit, withdraw, loan } from './mongoUtils/DBOps'
 
 const app = express()
 
@@ -45,6 +45,17 @@ app.post('/withdraw', async (req: Request, res: Response) => {
         res.sendStatus(200)
     } catch (err) {
         console.error('error in /withdraw route', err)
+        res.status(500).json('Internal server error')
+    }
+})
+
+app.post('/loan', async (req: Request, res: Response) => {
+    try {
+        const { accountNo, sum, interest, noOfPayments } = req.body
+        await loan(accountNo, sum, interest, noOfPayments)
+        res.sendStatus(200)
+    } catch (err) {
+        console.error('error in /loan route', err)
         res.status(500).json('Internal server error')
     }
 })
