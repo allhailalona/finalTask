@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import { validateEntry, deposit, withdraw, loan } from './mongoUtils/DBOps'
+import { depositSchema, withdrawSchema, loanSchema } from './zod'
 
 const app = express()
 
@@ -29,7 +30,7 @@ app.get('/validate-entry', async (req: Request, res: Response) => {
 // If I'll have time left, I'll add front and back validation!
 app.post('/deposit', async (req: Request, res: Response) => {
     try {
-        const { accountNo, sum } = req.body
+        const { accountNo, sum } = depositSchema.parse(req.body)
         await deposit(accountNo, sum) // An error will be thrown from this func, and the other op functions if no account is found
         res.sendStatus(200)
     } catch (err) {
@@ -40,7 +41,7 @@ app.post('/deposit', async (req: Request, res: Response) => {
 
 app.post('/withdraw', async (req: Request, res: Response) => {
     try {
-        const { accountNo, sum } = req.body
+        const { accountNo, sum } = withdrawSchema.parse(req.body)
         await withdraw(accountNo, sum)
         res.sendStatus(200)
     } catch (err) {
@@ -51,7 +52,7 @@ app.post('/withdraw', async (req: Request, res: Response) => {
 
 app.post('/loan', async (req: Request, res: Response) => {
     try {
-        const { accountNo, sum, interest, noOfPayments } = req.body
+        const { accountNo, sum, interest, noOfPayments } = loanSchema.parse(req.body)
         await loan(accountNo, sum, interest, noOfPayments)
         res.sendStatus(200)
     } catch (err) {

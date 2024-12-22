@@ -1,5 +1,4 @@
-// Import required components and hooks
-import { Button, Form, Input, message } from 'antd'
+import { Button, Form, Input, InputNumber, message } from 'antd'
 
 export default function Withdraw() {
     const [form] = Form.useForm()
@@ -33,6 +32,7 @@ export default function Withdraw() {
             <Form.Item
                 label={<span className='text-2xl font-bold mt-2'>Account No.</span>}
                 name="accountNo"
+                rules={[{ required: true, message: 'Account number is required' }]}
             >
                 <Input 
                    placeholder="Account No"
@@ -43,10 +43,14 @@ export default function Withdraw() {
             <Form.Item
                 label={<span className='text-2xl font-bold mt-2'>Withdraw Sum</span>}
                 name="sum"
+                rules={[
+                    { required: true, message: 'Withdraw sum is required' },
+                    { pattern: /^\d+$/, message: 'Please enter numbers only' }
+                ]}
             >
-                <Input 
+                <InputNumber
                    placeholder="Withdraw Sum"
-                   className='text-2xl font-bold h-[48px]' 
+                   className='text-2xl font-bold h-[48px] w-[200px]' 
                />
             </Form.Item>
 
