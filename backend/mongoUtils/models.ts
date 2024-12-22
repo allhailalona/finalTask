@@ -9,14 +9,14 @@ const BankAccountSchema = new Schema<BankAccount>({
   },
   actionType: { 
     type: String, 
-    enum: ['deposit', 'withdrawal', 'loan'],
+    enum: ['deposit', 'withdraw', 'loan'],
     required: true 
   },
   deposit: {
     sum: Number,
     date: Date
   },
-  withdrawal: {
+  withdraw: {
     sum: Number,
     date: Date
   },

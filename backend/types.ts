@@ -5,7 +5,7 @@ export type Deposit = {
     date: Date;
    }
    
-   export type Withdrawal = {
+   export type Withdraw = {
     sum: number;
     date: Date;
    }
@@ -20,8 +20,8 @@ export type Deposit = {
    export type BankAccount = {
     _id: Types.ObjectId;
     accountNo: string;
-    actionType: 'deposit' | 'withdrawal' | 'loan';
+    actionType: 'deposit' | 'withdraw' | 'loan';
     deposit?: Deposit;
-    withdrawal?: Withdrawal;
+    withdraw?: Withdraw;
     loan?: Loan;
    }

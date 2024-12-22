@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
-import { validateEntry } from './mongoUtils/DBOps'
+import { validateEntry, deposit, withdraw } from './mongoUtils/DBOps'
 
 const app = express()
 
@@ -14,10 +14,38 @@ app.get('/validate-entry', async (req: Request, res: Response) => {
     try {
         const accountNo = req.query.accountNo
         const isEntryValidated = await validateEntry(accountNo)
+        if (!isEntryValidated) {
+            throw new Error('Internal error occured')
+        }
         res.status(200).json(isEntryValidated)
     } catch (err) {
         console.error('error in /validate-entry route', err)
-        res.status(500).json('Unknown error occured') // Again, intentionally vague, the actual details appear above and in the functions themselves
+        res.status(500).json('Unknown error occured') 
+    }
+})
+
+// Greetings! 
+// Since the instructions do not clearly state the use of zod validation, I'll rely for now on the Schema validation to throw error in case of an incorrect type
+// If I'll have time left, I'll add front and back validation!
+app.post('/deposit', async (req: Request, res: Response) => {
+    try {
+        const { accountNo, sum } = req.body
+        await deposit(accountNo, sum) // An error will be thrown from this func, and the other op functions if no account is found
+        res.sendStatus(200)
+    } catch (err) {
+        console.error('error in /deposit route', err)
+        res.status(500).json('Internal Server Error')
+    }
+})
+
+app.post('/withdraw', async (req: Request, res: Response) => {
+    try {
+        const { accountNo, sum } = req.body
+        await withdraw(accountNo, sum)
+        res.sendStatus(200)
+    } catch (err) {
+        console.error('error in /withdraw route', err)
+        res.status(500).json('Internal server error')
     }
 })
 
